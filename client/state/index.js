@@ -128,7 +128,7 @@ export function createReduxStore( initialState = {} ) {
 		enhancers.push( sitesSync );
 
 		if ( window.app && window.app.isDebug ) {
-			enhancers.push( consoleDispatcher );
+			enhancers.unshift( consoleDispatcher );
 		}
 
 		if ( window.devToolsExtension ) {
