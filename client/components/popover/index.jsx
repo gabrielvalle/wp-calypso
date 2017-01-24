@@ -5,7 +5,7 @@ import React, { PropTypes, Component } from 'react';
 import ReactDom from 'react-dom';
 import debugFactory from 'debug';
 import classNames from 'classnames';
-import clickOutside from 'click-outside';
+import wrapWithClickOutside from 'react-click-outside';
 import uid from 'component-uid';
 
 /**
@@ -121,7 +121,6 @@ class Popover extends Component {
 
 	componentWillUnmount() {
 		this.debug( 'unmounting .... ' );
-		this.unbindClickoutHandler();
 		this.unbindDebouncedReposition();
 		this.unbindEscKeyListener();
 		unbindWindowListeners();
@@ -166,28 +165,8 @@ class Popover extends Component {
 		this.close( true );
 	}
 
-	// --- cliclout side ---
-	bindClickoutHandler( el = this.domContainer ) {
-		if ( ! el ) {
-			this.debug( 'no element to bind clickout side ' );
-			return null;
-		}
-
-		if ( this._clickoutHandlerReference ) {
-			this.debug( 'clickout event already bound' );
-			return null;
-		}
-
-		this.debug( 'binding `clickout` event' );
-		this._clickoutHandlerReference = clickOutside( el, this.onClickout );
-	}
-
-	unbindClickoutHandler() {
-		if ( this._clickoutHandlerReference ) {
-			this.debug( 'unbinding `clickout` listener ...' );
-			this._clickoutHandlerReference();
-			this._clickoutHandlerReference = null;
-		}
+	handleClickOutside( event ) {
+		this.onClickout( event );
 	}
 
 	onClickout( event ) {
@@ -234,13 +213,10 @@ class Popover extends Component {
 
 	setDOMBehavior( domContainer ) {
 		if ( ! domContainer ) {
-			this.unbindClickoutHandler();
 			return null;
 		}
 
 		this.debug( 'setting DOM behavior' );
-
-		this.bindClickoutHandler( domContainer );
 
 		// store DOM element referencies
 		this.domContainer = domContainer;
@@ -343,8 +319,6 @@ class Popover extends Component {
 	}
 
 	hide() {
-		// unbind clickout-side event every time the component is hidden.
-		this.unbindClickoutHandler();
 		this.setState( { show: false } );
 		this.clearShowTimer();
 	}
@@ -404,4 +378,4 @@ class Popover extends Component {
 	}
 }
 
-export default Popover;
+export default wrapWithClickOutside( Popover );
