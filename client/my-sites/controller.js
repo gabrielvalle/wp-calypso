@@ -268,13 +268,13 @@ module.exports = {
 				feedReduxStoreWithSelectedSite( selectionContext );
 
 				if ( isSelectedSiteDomainOnlySite( selectionContext ) && ! isPathAllowedForDomainOnlySite( selectionContext ) ) {
-					return renderSelectedSiteIsDomainOnly( selectionContext )
+					return renderSelectedSiteIsDomainOnly( selectionContext );
 				}
 
 				setRecentSitesPreferenceInReduxStore( selectionContext );
-
-				next();
 			} );
+
+		next();
 	},
 
 	awaitSiteLoaded( context, next ) {
