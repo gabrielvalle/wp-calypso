@@ -26,7 +26,6 @@
 		"jetpack/connect": true,
 		"jetpack/personalPlan": true,
 		"jetpack/seo-tools": true,
-		"mailing-lists/unsubscribe": true,
 		"manage/add-people": true,
 		"manage/ads": true,
 		"manage/ads/jetpack": true,

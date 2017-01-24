@@ -58,7 +58,6 @@
 		"jetpack/api-cache": true,
 		"keyboard-shortcuts": true,
 		"happychat": true,
-		"mailing-lists/unsubscribe": true,
 		"manage/add-people": true,
 		"manage/ads": true,
 		"manage/ads/jetpack": true,
