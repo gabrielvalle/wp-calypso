@@ -8,7 +8,7 @@ import {
 	TIMEZONES_REQUEST_SUCCESS,
 } from 'state/action-types';
 
-const manual_utc_offsets = [
+export const MANUAL_UTC_OFFSETS = [
 	{ value: 'UTC-12', label: 'UTC-12' },
 	{ value: 'UTC-11.5', label: 'UTC-11:30' },
 	{ value: 'UTC+0', label: 'UTC+0' },
@@ -135,7 +135,7 @@ const timezones_Pacific = [
 	{ value: 'Pacific/Johnston', label: 'Johnston' },
 ];
 
-const timezones_by_continent = {
+export const TIMEZONES_BY_CONTINENT = {
 	Africa: timezones_Africa,
 	America: timezones_America,
 	Antarctica: timezones_Antarctica,
@@ -151,7 +151,7 @@ const timezones_by_continent = {
 export const TIMEZONES_DATA = {
 	found: 422,
 
-	manual_utc_offsets,
+	manual_utc_offsets: MANUAL_UTC_OFFSETS,
 
 	timezones: [].concat(
 		timezones_Africa,
@@ -161,7 +161,7 @@ export const TIMEZONES_DATA = {
 		timezones_Pacific,
 	),
 
-	timezones_by_continent
+	timezones_by_continent: TIMEZONES_BY_CONTINENT,
 };
 
 export const TIMEZONES_SYNC_DATA = {
@@ -186,8 +186,8 @@ export const WP_REST_API = {
 // actions
 export const ACTION_TIMEZONES_RECEIVE = {
 	type: TIMEZONES_RECEIVE,
-	manual_utc_offsets,
-	timezones_by_continent
+	manual_utc_offsets: MANUAL_UTC_OFFSETS,
+	timezones_by_continent: TIMEZONES_BY_CONTINENT,
 };
 
 export const ACTION_TIMEZONES_REQUEST = {
