@@ -1,0 +1,150 @@
+/**
+ * External Dependencies
+ */
+import { throttle, isEmpty } from 'lodash';
+
+/**
+ * Internal Dependencies
+ */
+import {
+	HAPPYCHAT_CONNECTING,
+	HAPPYCHAT_CONNECTED,
+	HAPPYCHAT_SET_MESSAGE,
+	HAPPYCHAT_SEND_MESSAGE,
+	HAPPYCHAT_RECEIVE_EVENT,
+	HAPPYCHAT_SET_AVAILABLE,
+	HAPPYCHAT_SET_CHAT_STATUS,
+	HAPPYCHAT_CONNECTION_OPEN,
+	HAPPYCHAT_OPEN
+} from 'state/action-types';
+import wpcom from 'lib/wp';
+import { isHappychatOpen } from 'state/ui/happychat/selectors';
+import { setHappychatBadgeVisible } from 'state/ui/happychat/actions';
+import { updateChatMessage } from 'state/happychat/actions';
+import {
+	isHappychatChatActive,
+	getHappychatConnectionStatus
+} from 'state/happychat/selectors';
+import { getCurrentUser } from 'state/current-user/selectors';
+import getUser from 'lib/user';
+
+import buildConnection from 'lib/happychat/connection';
+
+const connection = buildConnection();
+
+const debug = require( 'debug' )( 'calypso:happychat:middleware' );
+
+// Promise based interface for wpcom.request
+const request = ( ... args ) => new Promise( ( resolve, reject ) => {
+	wpcom.request( ... args, ( error, response ) => {
+		if ( error ) {
+			return reject( error );
+		}
+		resolve( response );
+	} );
+} );
+
+const sign = ( payload ) => request( {
+	method: 'POST',
+	path: '/jwt/sign',
+	body: { payload: JSON.stringify( payload ) }
+} );
+
+const startSession = () => request( {
+	method: 'POST',
+	path: '/happychat/session' }
+);
+
+const setHappychatChatStatus = status => ( {
+	type: HAPPYCHAT_SET_CHAT_STATUS, status
+} );
+
+const setHappychatAvailable = isAvailable => ( { type: HAPPYCHAT_SET_AVAILABLE, isAvailable } );
+
+const setChatConnecting = () => ( { type: HAPPYCHAT_CONNECTING } );
+const setChatConnected = () => ( { type: HAPPYCHAT_CONNECTED } );
+
+const receiveChatEvent = event => ( { type: HAPPYCHAT_RECEIVE_EVENT, event } );
+
+const connectChat = ( { dispatch, getState } ) => {
+	const state = getState();
+	const user = getCurrentUser( state );
+
+	// if chat is already connected then do nothing
+	if ( getHappychatConnectionStatus( state ) === 'connected' ) {
+		return;
+	}
+	dispatch( setChatConnecting() );
+	// create new session id and get signed identity data for authenticating
+	startSession()
+	.then( ( { session_id } ) => sign( { user, session_id } ) )
+	.then( ( { jwt } ) => connection.open( user.ID, jwt ) )
+	.then(
+		() => {
+			dispatch( setChatConnected() );
+			connection
+			.on( 'message', event => dispatch( receiveChatEvent( event ) ) )
+			.on( 'status', status => {
+				debug( 'set chat status', status );
+				dispatch( setHappychatChatStatus( status ) );
+			} )
+			.on( 'accept', isAvailable => dispatch( setHappychatAvailable( isAvailable ) ) );
+		},
+		e => debug( 'failed to start happychat session', e, e.stack )
+	);
+};
+
+const sendTyping = throttle( message => {
+	connection.typing( message );
+}, 1000, { leading: true, trailing: false } );
+
+const onMessageChange = ( store, message ) => {
+	if ( ! isEmpty( message ) ) {
+		sendTyping( message );
+	} else {
+		connection.notTyping();
+	}
+};
+
+const sendMessage = ( { dispatch }, message ) => {
+	dispatch( updateChatMessage( '' ) );
+	connection.send( message );
+};
+
+const notifyWhenMinimized = ( { getState, dispatch } ) => {
+	if ( ! isHappychatOpen( getState() ) ) {
+		debug( 'display badge for chat' );
+		dispatch( setHappychatBadgeVisible() );
+	}
+};
+
+export default ( store ) => {
+	const { getState } = store;
+	getUser().once( 'change', () => {
+		if ( isHappychatChatActive( getState() ) ) {
+			connectChat( store );
+		}
+	} );
+	return next => action => {
+		switch ( action.type ) {
+			case HAPPYCHAT_CONNECTION_OPEN:
+				connectChat( store );
+				break;
+			case HAPPYCHAT_SET_MESSAGE:
+				onMessageChange( store, action.message );
+				break;
+			case HAPPYCHAT_SEND_MESSAGE:
+				sendMessage( store, action.message );
+				break;
+			case HAPPYCHAT_OPEN:
+				if ( action.isOpen ) {
+					store.dispatch( setHappychatBadgeVisible( false ) );
+				}
+				break;
+			case HAPPYCHAT_RECEIVE_EVENT:
+				notifyWhenMinimized( store, action );
+				break;
+		}
+		return next( action );
+	};
+};

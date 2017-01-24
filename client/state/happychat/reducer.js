@@ -122,7 +122,7 @@ const connectionStatus = ( state = 'disconnected', action ) => {
 const chatStatus = ( state = 'default', action ) => {
 	switch ( action.type ) {
 		case SERIALIZE:
-			return 'default';
+			return state;
 		case DESERIALIZE:
 			return state;
 		case HAPPYCHAT_SET_CHAT_STATUS:
