@@ -34,6 +34,7 @@ export getSiteIconUrl from './get-site-icon-url';
 export hasBrokenSiteUserConnection from './has-broken-site-user-connection';
 export isAutomatedTransferActive from './is-automated-transfer-active';
 export isDomainOnlySite from './is-domain-only-site';
+export isJetpackSettingsSaveSuccessful from './is-jetpack-settings-save-successful';
 export isPrivateSite from './is-private-site';
 export isPublicizeEnabled from './is-publicize-enabled';
 export isRegeneratingJetpackPostByEmail from './is-regenerating-jetpack-post-by-email';
