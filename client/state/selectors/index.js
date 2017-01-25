@@ -33,6 +33,7 @@ export isAutomatedTransferActive from './is-automated-transfer-active';
 export isDomainOnlySite from './is-domain-only-site';
 export isPrivateSite from './is-private-site';
 export isPublicizeEnabled from './is-publicize-enabled';
+export isRegeneratingJetpackPostByEmail from './is-regenerating-jetpack-post-by-email';
 export isRequestingBillingTransactions from './is-requesting-billing-transactions';
 export isRequestingJetpackSettings from './is-requesting-jetpack-settings';
 export isRequestingPostLikes from './is-requesting-post-likes';
