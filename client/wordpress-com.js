@@ -185,13 +185,13 @@ sections = [
 		enableLoggedOut: true
 	},
 	{
-    name: 'ads',
+		name: 'ads',
 		paths: [ '/ads' ],
 		module: 'my-sites/ads',
 		secondary: true,
 		group: 'sites'
-  },
-  {
+	},
+	{
 		name: 'mailing-lists',
 		paths: [ '/mailing-lists' ],
 		module: 'mailing-lists',
