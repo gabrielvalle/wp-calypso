@@ -30,6 +30,7 @@ export default {
 			? support.SUPPORT_ROOT
 			: userUtils.getLoginUrl( window.location.href );
 
+		// Not using the page library here since this is an external URL
 		window.location.href = url;
 	},
 
