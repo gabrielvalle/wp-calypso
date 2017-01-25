@@ -185,6 +185,13 @@ sections = [
 		enableLoggedOut: true
 	},
 	{
+    name: 'ads',
+		paths: [ '/ads' ],
+		module: 'my-sites/ads',
+		secondary: true,
+		group: 'sites'
+  },
+  {
 		name: 'mailing-lists',
 		paths: [ '/mailing-lists' ],
 		module: 'mailing-lists',
@@ -212,16 +219,6 @@ if ( config.isEnabled( 'account-recovery' ) ) {
 		module: 'account-recovery',
 		secondary: false,
 		enableLoggedOut: true,
-	} );
-}
-
-if ( config.isEnabled( 'manage/ads' ) ) {
-	sections.push( {
-		name: 'ads',
-		paths: [ '/ads' ],
-		module: 'my-sites/ads',
-		secondary: true,
-		group: 'sites'
 	} );
 }
 

@@ -20,8 +20,6 @@
 		"desktop-promo": false,
 		"fluid-width": true,
 		"help": false,
-		"manage/ads": true,
-		"manage/ads/jetpack": true,
 		"manage/customize": true,
 		"manage/edit-user": true,
 		"manage/jetpack": true,
