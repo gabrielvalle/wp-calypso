@@ -26,12 +26,11 @@ export default {
 			return next();
 		}
 
-		if ( context.path === '/help' ) {
-			window.location.href = support.SUPPORT_ROOT;
-			return;
-		}
+		const url = ( context.path === '/help' )
+			? support.SUPPORT_ROOT
+			: userUtils.getLoginUrl( window.location.href );
 
-		window.location.href = userUtils.getLoginUrl( window.location.href );
+		window.location.href = url;
 	},
 
 	help( context ) {
