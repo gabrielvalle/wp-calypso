@@ -28,7 +28,6 @@ export default React.createClass( {
 	displayName: 'StatsInsights',
 
 	propTypes: {
-		commentFollowersList: PropTypes.object.isRequired,
 		commentsList: PropTypes.object.isRequired,
 		emailFollowersList: PropTypes.object.isRequired,
 		followList: PropTypes.object.isRequired,
@@ -42,7 +41,6 @@ export default React.createClass( {
 
 	render() {
 		const {
-			commentFollowersList,
 			commentsList,
 			emailFollowersList,
 			followList,
@@ -97,10 +95,9 @@ export default React.createClass( {
 							<div className="stats__module-column">
 								<Comments
 									path={ 'comments' }
-									site={ site }
 									commentsList={ commentsList }
 									followList={ followList }
-									commentFollowersList={ commentFollowersList } />
+								/>
 								{ tagsList }
 							</div>
 							<div className="stats__module-column">

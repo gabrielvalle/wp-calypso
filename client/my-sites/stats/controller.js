@@ -145,8 +145,6 @@ module.exports = {
 			siteID: siteId, statType: 'statsFollowers', type: 'wpcom', domain: siteDomain, max: 7 } );
 		const emailFollowersList = new StatsList( {
 			siteID: siteId, statType: 'statsFollowers', type: 'email', domain: siteDomain, max: 7 } );
-		const commentFollowersList = new StatsList( {
-			siteID: siteId, statType: 'statsCommentFollowers', domain: siteDomain, max: 7 } );
 
 		analytics.pageView.record( basePath, analyticsPageTitle + ' > Insights' );
 
@@ -157,7 +155,6 @@ module.exports = {
 				commentsList: commentsList,
 				wpcomFollowersList: wpcomFollowersList,
 				emailFollowersList: emailFollowersList,
-				commentFollowersList: commentFollowersList,
 				summaryDate: summaryDate
 			} ),
 			document.getElementById( 'primary' ),
