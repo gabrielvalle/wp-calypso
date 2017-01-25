@@ -20,6 +20,7 @@ export editedPostHasContent from './edited-post-has-content';
 export getBillingTransactions from './get-billing-transactions';
 export getJetpackSetting from './get-jetpack-setting';
 export getJetpackSettings from './get-jetpack-settings';
+export getJetpackSettingsSaveRequestStatus from './get-jetpack-settings-save-request-status';
 export getMenuItemTypes from './get-menu-item-types';
 export getPostLikes from './get-post-likes';
 export getSharingButtons from './get-sharing-buttons';
