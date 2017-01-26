@@ -17,6 +17,7 @@ export areSitePermalinksEditable from './are-site-permalinks-editable';
 export canCurrentUser from './can-current-user';
 export countPostLikes from './count-post-likes';
 export editedPostHasContent from './edited-post-has-content';
+export getBlockedSites from './get-blocked-sites';
 export getBillingTransactions from './get-billing-transactions';
 export getImageEditorOriginalAspectRatio from './get-image-editor-original-aspect-ratio';
 export getJetpackConnectionStatus from './get-jetpack-connection-status';
