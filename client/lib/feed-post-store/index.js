@@ -2,7 +2,7 @@
  * External Dependencies
  */
 import config from 'config';
-import { assign, forEach, isEqual, defer } from 'lodash';
+import { get, assign, forEach, isEqual, defer } from 'lodash';
 const debug = require( 'debug' )( 'calypso:feed-post-store' );
 
 /**
@@ -13,8 +13,6 @@ const Dispatcher = require( 'dispatcher' ),
 	{ runFastRules, runSlowRules } = require( 'state/reader/posts/normalization-rules' ),
 	FeedPostActionType = require( './constants' ).action,
 	FeedStreamActionType = require( 'lib/feed-stream-store/constants' ).action,
-	SiteStore = require( 'lib/reader-site-store' ),
-	SiteState = require( 'lib/reader-site-store/constants' ).state,
 	stats = require( 'reader/stats' );
 
 let _posts = {},
